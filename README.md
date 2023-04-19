@@ -1,4 +1,4 @@
-# hw2
+# EventTracker
 
 A new Flutter project.
 
