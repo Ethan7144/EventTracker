@@ -6,7 +6,7 @@ class EditDateForm extends StatefulWidget {
   final Event event;
   final Function(Event) onSave;
 
-  EditDateForm({required this.event, required this.onSave});
+  EditDateForm({required this.event, required this.onSave}); // need an event to actually edit
 
   @override
   _EditDateFormState createState() => _EditDateFormState();
