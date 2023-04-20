@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'event.dart';
 import 'addEvent.dart';
+import 'editDateForm.dart';
 
 class MyEventsPage extends StatefulWidget {
-
   @override
   _MyEventsPageState createState() => _MyEventsPageState();
 }
@@ -33,6 +33,23 @@ class _MyEventsPageState extends State<MyEventsPage> {
     });
   }
 
+  void _showEditDateForm(Event event) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EditDateForm(
+          event: event,
+          onSave: (updatedEvent) {
+            setState(() {
+              int index = events.indexOf(event);
+              events[index].startDate = updatedEvent.startDate;
+              events[index].endDate = updatedEvent.endDate;
+            });
+          },
+        );
+      },
+    );
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +68,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      // do something when event is tapped
+                      _showEditDateForm(events[index]);
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

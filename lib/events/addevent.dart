@@ -35,6 +35,8 @@ class _NewEventFormState extends State<NewEventForm> {
     Navigator.of(context).pop();
   }
 
+  
+
 
   @override
   Widget build(BuildContext context) {
