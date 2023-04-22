@@ -70,7 +70,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   return InkWell(
                     onTap: () {
                       _showEditDateForm(event);
-                    },
+                    }, // show the edit date form when the event is tapped
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
