@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'events/displayEvent.dart';
+import 'package:hw2/models/event_view_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,13 +10,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My Events'),
+    return ChangeNotifierProvider(
+      create: (_) => MyEventsViewModel(),
+      child: MaterialApp(
+        title: 'My Events App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-        body: MyEventsPage(),
+        home: MyEventsPage(),
       ),
     );
   }

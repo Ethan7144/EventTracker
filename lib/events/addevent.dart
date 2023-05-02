@@ -31,7 +31,7 @@ class _NewEventFormState extends State<NewEventForm> {
     );
 
     widget.onSave(newEvent); // Call the onSave function with the new event
-
+    
     Navigator.of(context).pop();
   }
   @override

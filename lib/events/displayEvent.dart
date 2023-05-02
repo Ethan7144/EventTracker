@@ -1,60 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'event.dart';
+import 'package:provider/provider.dart';
+
 import 'addEvent.dart';
 import 'editDateForm.dart';
+import 'event.dart';
+import 'package:hw2/models/event_view_model.dart';
 
-class MyEventsPage extends StatefulWidget {
+class MyEventsPage extends StatelessWidget {
+  const MyEventsPage({Key? key}) : super(key: key);
+
   @override
-  _MyEventsPageState createState() => _MyEventsPageState();
-}
-
-class _MyEventsPageState extends State<MyEventsPage> {
-  List<Event> events = [];
-  bool showOnlyUpcoming = false; // add a boolean flag to toggle between showing all events and only upcoming events
-
-  void _showNewEventForm() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NewEventForm(
-          onSave: (event) {
-            setState(() {
-              events.add(event); // Add the new event to the events list
-            });
-          },
-        );
-      },
-    );
-  }
-
-  void _handleSaveEvent(Event event) {
-    setState(() {
-      events.add(event);
-    });
-  }
-
-  void _showEditDateForm(Event event) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return EditDateForm(
-          event: event,
-          onSave: (updatedEvent) {
-            setState(() {
-              int index = events.indexOf(event);
-              events[index].startDate = updatedEvent.startDate;
-              events[index].endDate = updatedEvent.endDate;
-            });
-          },
-        );
-      },
-    );
-  }
-
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final upcomingEvents = events.where((event) => event.endDate.isAfter(now)).toList();
+    final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -62,52 +20,63 @@ class _MyEventsPageState extends State<MyEventsPage> {
           children: [
             SizedBox(height: 16),
             Expanded(
-              child: ListView.builder(
-                itemCount: showOnlyUpcoming ? upcomingEvents.length : events.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final event = showOnlyUpcoming ? upcomingEvents[index] : events[index];
+              child: Consumer<MyEventsViewModel>(
+                builder: (context, eventsModel, child) {
+                  final now = DateTime.now();
+                  final upcomingEvents = eventsModel.events
+                      .where((event) => event.endDate.isAfter(now))
+                      .toList();
 
-                  return InkWell(
-                    onTap: () {
-                      _showEditDateForm(event);
-                    }, // show the edit date form when the event is tapped
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          event.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                  return ListView.builder(
+                    itemCount: eventsModel.showOnlyUpcoming
+                        ? upcomingEvents.length
+                        : eventsModel.events.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final event = eventsModel.showOnlyUpcoming
+                          ? upcomingEvents[index]
+                          : eventsModel.events[index];
+
+                      return InkWell(
+                        onTap: () {
+                          _showEditDateForm(context, eventsModel, event);
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              event.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '${DateFormat.yMMMd().add_jm().format(event.startDate)} - ${DateFormat.yMMMd().add_jm().format(event.endDate)}',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              event.description,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                eventsModel.deleteEvent(event);
+                              },
+                              child: Text('Delete'),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${DateFormat.yMMMd().add_jm().format(event.startDate)} - ${DateFormat.yMMMd().add_jm().format(event.endDate)}',
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          event.description,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              events.remove(event);
-                            });
-                          },
-                          child: Text('Delete'),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -115,26 +84,46 @@ class _MyEventsPageState extends State<MyEventsPage> {
             SizedBox(height: 16),
             ElevatedButton(
               child: Text('Add Event'),
-              onPressed: _showNewEventForm,
+              onPressed: () => _showNewEventForm(context, eventsModel),
             ),
             SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Checkbox(
-                  value: showOnlyUpcoming,
-                  onChanged: (value) {
-                    setState(() {
-                      showOnlyUpcoming = value!;
-                    });
-                  },
-                ),
-                Text('Show only upcoming events'),
-              ],
+            Consumer<MyEventsViewModel>(
+              builder: (context, eventsModel, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: eventsModel.showOnlyUpcoming,
+                      onChanged: (value) {
+                        eventsModel.showOnlyUpcoming = value!;
+                      },
+                    ),
+                    Text('Show only upcoming events'),
+                  ],
+                );
+              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _showNewEventForm(BuildContext context, MyEventsViewModel eventsModel) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewEventForm(
+          onSave: (event) {
+            eventsModel.addEvent(event);
+          },
+        );
+      },
+    );
+  }
+
+  void _showEditDateForm(
+      BuildContext context, MyEventsViewModel viewModel, Event event) {
+    viewModel.editEventDate(context, event);
   }
 }
