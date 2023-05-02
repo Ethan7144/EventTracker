@@ -5,12 +5,8 @@ import 'package:hw2/events/event.dart';
 import 'package:provider/provider.dart';
 
 class MyEventsViewModel extends ChangeNotifier {
-  final List<Event> _events = [Event(
-  title: 'Birthday Party',
-  description: 'Celebrating my friend\'s birthday!',
-  startDate: DateTime.now().add(Duration(days: 1)),
-  endDate: DateTime.now().add(Duration(days: 2)),
-)];
+  final List<Event> _events = [
+];
   bool _showOnlyUpcoming = false;
 
   Event? _newEvent;
@@ -26,7 +22,14 @@ class MyEventsViewModel extends ChangeNotifier {
   }
 
   void addEvent(Event event) {
-    _events.add(event);
+    print('Adding event: $event');
+  print('Current event count: ${_events.length}');
+  
+  _events.add(event);
+  
+  print('Event added.');
+  print('New event count: ${_events.length}');
+  
     notifyListeners();
   }
 
@@ -45,7 +48,14 @@ class MyEventsViewModel extends ChangeNotifier {
   }
 
   void deleteEvent(Event event) {
-    _events.remove(event);
+    print('Adding event: $event');
+  print('Current event count: ${_events.length}');
+  _events.remove(event);
+  
+  print('Event added.');
+  print('New event count: ${_events.length}');
+  
+    
     notifyListeners();
   }
 
