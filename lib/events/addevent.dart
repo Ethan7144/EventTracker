@@ -89,7 +89,7 @@ class _NewEventFormState extends State<NewEventForm> {
                     },
                     decoration: const InputDecoration(
                       labelText: 'Start Date',
-                      hintText: 'Select start date and time',gi
+                      hintText: 'Select start date and time',
                       border: OutlineInputBorder(),
                     ),
                   ),
