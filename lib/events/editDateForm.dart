@@ -6,7 +6,9 @@ class EditDateForm extends StatefulWidget {
   final Event event;
   final Function(Event) onSave;
 
-  EditDateForm({required this.event, required this.onSave}); // need an event to actually edit
+  EditDateForm(
+      {required this.event,
+      required this.onSave}); // need an event to actually edit
 
   @override
   _EditDateFormState createState() => _EditDateFormState();
@@ -15,6 +17,7 @@ class EditDateForm extends StatefulWidget {
 class _EditDateFormState extends State<EditDateForm> {
   late DateTime _startDate;
   late DateTime _endDate;
+  late DateTime _minEndDate = _startDate;
 
   @override
   void initState() {
@@ -50,7 +53,7 @@ class _EditDateFormState extends State<EditDateForm> {
               final DateTime? newStartDate = await showDatePicker(
                 context: context,
                 initialDate: _startDate,
-                firstDate: DateTime.now(),
+                firstDate: DateTime(2023),
                 lastDate: DateTime(2100),
               );
               if (newStartDate != null) {
@@ -62,7 +65,12 @@ class _EditDateFormState extends State<EditDateForm> {
                     _startDate.hour,
                     _startDate.minute,
                   );
+                    if (_endDate.isBefore(_startDate)) {
+                       _endDate = _startDate;
+                    }
+                  _minEndDate = _startDate;
                 });
+
               }
             },
             child: Row(
@@ -93,7 +101,7 @@ class _EditDateFormState extends State<EditDateForm> {
               final DateTime? newEndDate = await showDatePicker(
                 context: context,
                 initialDate: _endDate,
-                firstDate: _startDate,
+                firstDate: _minEndDate,
                 lastDate: DateTime(2100),
               );
               if (newEndDate != null) {
