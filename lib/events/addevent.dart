@@ -32,7 +32,7 @@ class _NewEventFormState extends State<NewEventForm> {
       startDate: _startDate,
       endDate: _endDate,
     );
-
+    
     viewModel.addEvent(newEvent);
     print('Event added to VMC.');
     Navigator.of(context).pop();
@@ -40,6 +40,7 @@ class _NewEventFormState extends State<NewEventForm> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime _minEndDate = DateTime.now();
     return Consumer<MyEventsViewModel>(
       builder: (context, model, child) {
         return AlertDialog(
@@ -69,27 +70,36 @@ class _NewEventFormState extends State<NewEventForm> {
                     decoration: InputDecoration(
                       hintText: 'Description',
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a description';
+                      }
+                      return null;
+                    },
                     onChanged: (value) => _description = value,
                   ),
                   const SizedBox(height: 8),
                   DateTimePicker(
                     type: DateTimePickerType.dateTime,
-                    firstDate: DateTime.now(),
+                    firstDate: DateTime(2023),
                     lastDate: DateTime(2100),
-                    onChanged: (value) => _startDate = DateTime.parse(value),
-                    decoration: InputDecoration(
+                    onChanged: (value) {
+                      _startDate = DateTime.parse(value);
+                      _minEndDate = _startDate;
+                    },
+                    decoration: const InputDecoration(
                       labelText: 'Start Date',
-                      hintText: 'Select start date and time',
+                      hintText: 'Select start date and time',gi
                       border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 8),
                   DateTimePicker(
                     type: DateTimePickerType.dateTime,
-                    firstDate: _startDate,
+                    firstDate: _minEndDate,
                     lastDate: DateTime(2100),
                     onChanged: (value) => _endDate = DateTime.parse(value),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'End Date',
                       hintText: 'Select end date and time',
                       border: OutlineInputBorder(),
