@@ -15,7 +15,6 @@ class MyEventsViewModel extends ChangeNotifier {
   Event getEvent(int index) => _events[index];
    int get eventsListSize => _events.length;
 
-
   Event? _newEvent;
   List<Event> get events => _showOnlyUpcoming
       ? _events.where((event) => event.endDate.isAfter(DateTime.now())).toList()

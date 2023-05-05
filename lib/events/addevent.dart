@@ -82,7 +82,7 @@ class _NewEventFormState extends State<NewEventForm> {
                   ),
                   const SizedBox(height: 8),
                   DateTimePicker(
-                    type: DateTimePickerType.dateTime,
+                    type: DateTimePickerType.date,
                     firstDate: DateTime(2023),
                     lastDate: DateTime(2100),
                     onChanged: (value) {
@@ -91,19 +91,19 @@ class _NewEventFormState extends State<NewEventForm> {
                     },
                     decoration: const InputDecoration(
                       labelText: 'Start Date',
-                      hintText: 'Select start date and time',
+                      hintText: 'Select start date',
                       border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 8),
                   DateTimePicker(
-                    type: DateTimePickerType.dateTime,
+                    type: DateTimePickerType.date,
                     firstDate: _minEndDate,
                     lastDate: DateTime(2100),
                     onChanged: (value) => _endDate = DateTime.parse(value),
                     decoration: const InputDecoration(
                       labelText: 'End Date',
-                      hintText: 'Select end date and time',
+                      hintText: 'Select end date',
                       border: OutlineInputBorder(),
                     ),
                   ),

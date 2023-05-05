@@ -62,8 +62,6 @@ class _EditDateFormState extends State<EditDateForm> {
                     newStartDate.year,
                     newStartDate.month,
                     newStartDate.day,
-                    _startDate.hour,
-                    _startDate.minute,
                   );
                     if (_endDate.isBefore(_startDate)) {
                        _endDate = _startDate;
@@ -103,6 +101,7 @@ class _EditDateFormState extends State<EditDateForm> {
                 initialDate: _endDate,
                 firstDate: _minEndDate,
                 lastDate: DateTime(2100),
+                
               );
               if (newEndDate != null) {
                 setState(() {
@@ -110,8 +109,6 @@ class _EditDateFormState extends State<EditDateForm> {
                     newEndDate.year,
                     newEndDate.month,
                     newEndDate.day,
-                    _endDate.hour,
-                    _endDate.minute,
                   );
                 });
               }

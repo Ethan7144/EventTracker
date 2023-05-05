@@ -29,7 +29,7 @@ class EventItem extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '${DateFormat.yMMMd().add_jm().format(event.startDate)} - ${DateFormat.yMMMd().add_jm().format(event.endDate)}',
+            '${DateFormat.yMMMd().format(event.startDate)} - ${DateFormat.yMMMd().format(event.endDate)}',
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 12,
@@ -97,6 +97,6 @@ class EventItem extends StatelessWidget {
   void _showEventDetails(BuildContext context, MyEventsViewModel eventsModel) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
     final index = eventsModel.events.indexOf(event);
-    GoRouter.of(context).go('/event/$index');
+    GoRouter.of(context).push('/event/$index');
   }
 }
