@@ -9,7 +9,6 @@ class EventItem extends StatelessWidget {
   final Event event;
   const EventItem({required this.event});
 
-
   @override
   Widget build(BuildContext context) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
@@ -77,12 +76,16 @@ class EventItem extends StatelessWidget {
           actions: <Widget>[
             TextButton(
                 child: const Text('Edit'),
-                onPressed: () => _showEventDetails(context, eventsModel)),
+                onPressed: () {
+                   Navigator.of(context).pop();
+                  _showEditDateForm(context, eventsModel, event);
+                }
+                ),
             TextButton(
               child: const Text('View'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _showEventDetailsDialog(context, eventsModel, event);
+                _showEventDetails(context, eventsModel);
               },
             ),
           ],
