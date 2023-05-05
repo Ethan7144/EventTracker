@@ -69,7 +69,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                     ElevatedButton(
                       child: const Text('Previous'),
                       onPressed: () => context.push('/event/${widget.index - 1}'),
-                    ) : const TextButton(onPressed: null, child: Text("")),
+                    ) : const TextButton(onPressed: null, child: Text("N/A")),
                     ElevatedButton(
                     onPressed: () => context.push('/home'),
                     child: const Text('Home'),
@@ -78,7 +78,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                     ElevatedButton(
                       child: const Text('Next'),
                       onPressed: () => context.push('/event/${widget.index + 1}'),
-                    ) : const TextButton(onPressed: null, child: Text("")),
+                    ) : const TextButton(onPressed: null, child: Text("N/A")),
                 ],
               ),
             ],
