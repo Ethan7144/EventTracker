@@ -109,7 +109,7 @@ class _NewEventFormState extends State<NewEventForm> {
                   ),
                   ElevatedButton(
               child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => GoRouter.of(context).go('/home'),
             ),
                 ElevatedButton(
                   child: const Text('Save'),
