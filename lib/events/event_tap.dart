@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:provider/provider.dart';
@@ -8,9 +9,11 @@ class EventItem extends StatelessWidget {
   final Event event;
   const EventItem({required this.event});
 
+
   @override
   Widget build(BuildContext context) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
+    final index = eventsModel.events.indexOf(event);
     return InkWell(
       onTap: () {
         _showInfoDialog(context, eventsModel, event);
@@ -57,38 +60,40 @@ class EventItem extends StatelessWidget {
       BuildContext context, MyEventsViewModel viewModel, Event event) {
     viewModel.editEventDate(context, event);
   }
-  
+
   void _showEventDetailsDialog(
       BuildContext context, MyEventsViewModel eventsModel, Event event) {
     eventsModel.showEventDetails(context, event);
   }
 
-
   void _showInfoDialog(
       BuildContext context, MyEventsViewModel eventsModel, Event event) {
-        showDialog(context: context, 
-          builder: (BuildContext context) {
-              return AlertDialog(
-              title: Text(event.title),
-              content: Text(event.description),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Edit'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showEditDateForm(context, eventsModel, event);
-                  },
-                ),
-                TextButton(
-                  child: const Text('View'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showEventDetailsDialog(context, eventsModel, event);
-                  },
-                ),
-              ],
-            );
-          },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(event.title),
+          content: Text(event.description),
+          actions: <Widget>[
+            TextButton(
+                child: const Text('Edit'),
+                onPressed: () => _showEventDetails(context, eventsModel)),
+            TextButton(
+              child: const Text('View'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showEventDetailsDialog(context, eventsModel, event);
+              },
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  void _showEventDetails(BuildContext context, MyEventsViewModel eventsModel) {
+    final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
+    final index = eventsModel.events.indexOf(event);
+    GoRouter.of(context).go('/event/$index');
   }
 }
