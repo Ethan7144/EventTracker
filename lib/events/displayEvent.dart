@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hw2/events/event_tap.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -35,47 +37,7 @@ class MyEventsPage extends StatelessWidget {
                       final event = eventsModel.showOnlyUpcoming
                           ? upcomingEvents[index]
                           : eventsModel.events[index];
-
-                      return InkWell(
-                        onTap: () {
-                          _showEditDateForm(context, eventsModel, event);
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              event.title,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              '${DateFormat.yMMMd().add_jm().format(event.startDate)} - ${DateFormat.yMMMd().add_jm().format(event.endDate)}',
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              event.description,
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                eventsModel.deleteEvent(event);
-                              },
-                              child: Text('Delete'),
-                            ),
-                            const SizedBox(height: 8),
-                          ],
-                        ),
-                      );
+                      return EventItem(event: event);
                     },
                   );
                 },
@@ -110,20 +72,8 @@ class MyEventsPage extends StatelessWidget {
   }
 
   void _showNewEventForm(BuildContext context, MyEventsViewModel eventsModel) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NewEventForm(
-          onSave: (event) {
-            eventsModel.addEvent(event);
-          },
-        );
-      },
-    );
-  }
-
-  void _showEditDateForm(
-      BuildContext context, MyEventsViewModel viewModel, Event event) {
-    viewModel.editEventDate(context, event);
+    GoRouter.of(context).go('/add');
   }
 }
+
+

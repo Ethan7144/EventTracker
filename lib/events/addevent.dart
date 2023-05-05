@@ -1,5 +1,6 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'event.dart';
 import 'package:hw2/models/event_view_model.dart';
@@ -35,7 +36,7 @@ class _NewEventFormState extends State<NewEventForm> {
     
     viewModel.addEvent(newEvent);
     print('Event added to VMC.');
-    Navigator.of(context).pop();
+    GoRouter.of(context).go('/home');
   }
 
   @override
@@ -43,11 +44,12 @@ class _NewEventFormState extends State<NewEventForm> {
     DateTime _minEndDate = DateTime.now();
     return Consumer<MyEventsViewModel>(
       builder: (context, model, child) {
-        return AlertDialog(
-          title: const Text('New Event'),
-          content: SizedBox(
-            height: 300,
-            width: 200,
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('New Event'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -105,20 +107,19 @@ class _NewEventFormState extends State<NewEventForm> {
                       border: OutlineInputBorder(),
                     ),
                   ),
+                  ElevatedButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+                ElevatedButton(
+                  child: const Text('Save'),
+                  onPressed: () => _submitForm(model),
+                ),
                 ],
               ),
             ),
           ),
-          actions: [
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            TextButton(
-              child: const Text('Save'),
-              onPressed: () => _submitForm(model),
-            ),
-          ],
+            
         );
       },
     );
