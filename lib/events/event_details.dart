@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hw2/models/event_view_model.dart';
-import 'package:hw2/events/event.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
