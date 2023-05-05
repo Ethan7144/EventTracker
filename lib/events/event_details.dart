@@ -32,7 +32,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
+                    icon: const Icon(Icons.arrow_back_ios_new, size: 35),
                     onPressed: () => GoRouter.of(context).pop(),
                   ),
               ),
@@ -66,19 +66,19 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   widget.index > 0 ?
-                    ElevatedButton(
-                      child: const Text('Previous'),
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios_new),
                       onPressed: () => context.push('/event/${widget.index - 1}'),
-                    ) : const TextButton(onPressed: null, child: Text("N/A")),
+                    ) : const IconButton(onPressed: null, icon: Icon(Icons.arrow_back_ios)),
                     ElevatedButton(
                     onPressed: () => context.go('/home'),
                     child: const Text('Home'),
                   ),
                   widget.index < length - 1 ? 
-                    ElevatedButton(
-                      child: const Text('Next'),
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => context.push('/event/${widget.index + 1}'),
-                    ) : const TextButton(onPressed: null, child: Text("N/A")),
+                    ) : const IconButton(onPressed: null, icon: Icon(Icons.arrow_forward_ios)),
                 ],
               ),
             ],
