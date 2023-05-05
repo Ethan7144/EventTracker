@@ -18,7 +18,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
-    final event = eventsModel.getEvent(widget.index);
+    final currEvent = eventsModel.getEvent(widget.index);
     final int length = eventsModel.eventsListSize;
 
     return Scaffold(
@@ -43,19 +43,19 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        event.title,
+                        currEvent.title,
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       Text(
-                        event.description,
+                        currEvent.description,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       Text(
-                        'Start Date: ${DateFormat.yMd().format(event.startDate)}',
+                        'Start Date: ${DateFormat.yMd().format(currEvent.startDate)}',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Text(
-                        'End Date: ${DateFormat.yMd().format(event.endDate)}',
+                        'End Date: ${DateFormat.yMd().format(currEvent.endDate)}',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ],
