@@ -75,7 +75,7 @@ class _EditDateFormState extends State<EditDateForm> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  DateFormat.yMMMd().add_jm().format(_startDate),
+                  DateFormat.yMMMd().format(_startDate),
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
@@ -117,7 +117,7 @@ class _EditDateFormState extends State<EditDateForm> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  DateFormat.yMMMd().add_jm().format(_endDate),
+                  DateFormat.yMMMd().format(_endDate),
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,

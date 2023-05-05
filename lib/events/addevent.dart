@@ -36,7 +36,7 @@ class _NewEventFormState extends State<NewEventForm> {
     
     viewModel.addEvent(newEvent);
     print('Event added to VMC.');
-    GoRouter.of(context).go('/home');
+    GoRouter.of(context).pop();
   }
 
   @override

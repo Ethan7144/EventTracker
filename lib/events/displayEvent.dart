@@ -72,7 +72,7 @@ class MyEventsPage extends StatelessWidget {
   }
 
   void _showNewEventForm(BuildContext context, MyEventsViewModel eventsModel) {
-    GoRouter.of(context).go('/add');
+    GoRouter.of(context).push('/add');
   }
 }
 
