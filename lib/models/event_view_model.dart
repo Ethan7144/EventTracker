@@ -25,6 +25,11 @@ class MyEventsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<Event> getSortedEventsByStartDate() {
+    _events.sort((a, b) => a.startDate.compareTo(b.startDate));
+    return _events;
+  }
+
   
 
   void addEvent(Event event) {

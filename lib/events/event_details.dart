@@ -15,75 +15,87 @@ class EventDetailsScreen extends StatefulWidget {
 
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
   @override
-  Widget build(BuildContext context) {
-    final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
-    final currEvent = eventsModel.getEvent(widget.index);
-    final int length = eventsModel.eventsListSize;
+Widget build(BuildContext context) {
+  final eventsModel =
+      Provider.of<MyEventsViewModel>(context, listen: false);
+  final sortedEvents = eventsModel.getSortedEventsByStartDate();
+  final currEvent = sortedEvents[widget.index];
+  final int length = eventsModel.eventsListSize;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new, size: 35),
-                    onPressed: () => GoRouter.of(context).pop(),
-                  ),
+  return Scaffold(
+    body: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, size: 35),
+                onPressed: () => GoRouter.of(context).pop(),
               ),
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        currEvent.title,
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                      Text(
-                        currEvent.description,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      Text(
-                        'Start Date: ${DateFormat.yMd().format(currEvent.startDate)}',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      Text(
-                        'End Date: ${DateFormat.yMd().format(currEvent.endDate)}',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ],
-                  ),
+            ),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      currEvent.title,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    Text(
+                      currEvent.description,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    Text(
+                      'Start Date: ${DateFormat.yMd().format(currEvent.startDate)}',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Text(
+                      'End Date: ${DateFormat.yMd().format(currEvent.endDate)}',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  widget.index > 0 ?
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new),
-                      onPressed: () => context.push('/event/${widget.index - 1}'),
-                    ) : const IconButton(onPressed: null, icon: Icon(Icons.arrow_back_ios)),
-                    ElevatedButton(
-                    onPressed: () => context.go('/home'),
-                    child: const Text('Home'),
-                  ),
-                  widget.index < length - 1 ? 
-                    IconButton(
-                      icon: Icon(Icons.arrow_forward_ios),
-                      onPressed: () => context.push('/event/${widget.index + 1}'),
-                    ) : const IconButton(onPressed: null, icon: Icon(Icons.arrow_forward_ios)),
-                ],
-              ),
-            ],
-          ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget.index > 0
+                    ? IconButton(
+                        icon: Icon(Icons.arrow_back_ios_new),
+                        onPressed: () =>
+                            context.push('/event/${widget.index - 1}'),
+                      )
+                    : const IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.arrow_back_ios),
+                      ),
+                ElevatedButton(
+                  onPressed: () => context.go('/home'),
+                  child: const Text('Home'),
+                ),
+                widget.index < length - 1
+                    ? IconButton(
+                        icon: Icon(Icons.arrow_forward_ios),
+                        onPressed: () =>
+                            context.push('/event/${widget.index + 1}'),
+                      )
+                    : const IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.arrow_forward_ios),
+                      ),
+              ],
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+  } 
 }
