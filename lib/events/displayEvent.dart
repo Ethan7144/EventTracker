@@ -16,47 +16,55 @@ class MyEventsPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 16),
             Expanded(
               child: Consumer<MyEventsViewModel>(
                 builder: (context, eventsModel, child) {
+                  
                   final now = DateTime.now();
                   final upcomingEvents = eventsModel.events
-                      .where((event) => event.endDate.isAfter(now))
-                      .toList();
+                      .where((event) => event.endDate.isAfter(now)).toList();
 
-                  return ListView.builder(
-                    itemCount: eventsModel.showOnlyUpcoming
-                        ? upcomingEvents.length
-                        : eventsModel.events.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final event = eventsModel.showOnlyUpcoming
-                          ? upcomingEvents[index]
-                          : eventsModel.events[index];
-                      return EventItem(event: event);
-                    },
-                  );
+                  if (eventsModel.eventsListSize == 0) {
+                    // If the list is empty, display a message or a placeholder widget
+                    return Center(
+                      child: Text(
+                        'No upcoming events found',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: eventsModel.showOnlyUpcoming
+                          ? upcomingEvents.length
+                          : eventsModel.eventsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final event = eventsModel.showOnlyUpcoming
+                            ? upcomingEvents[index]
+                            : eventsModel.eventsList[index];
+                        return EventItem(event: event);
+                      },
+                    );
+                  }
                 },
               ),
             ),
-            SizedBox(height: 16),
             ElevatedButton(
-              child: Text('Add Event'),
+              child: const Text('Add Event'),
               onPressed: () => _showNewEventForm(context, eventsModel),
             ),
-            SizedBox(height: 16),
             Consumer<MyEventsViewModel>(
               builder: (context, eventsModel, child) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Checkbox(
-                      value: eventsModel.showOnlyUpcoming,
-                      onChanged: (value) {
-                        eventsModel.showOnlyUpcoming = value!;
-                      },
-                    ),
-                    Text('Show only upcoming events'),
+                          value: eventsModel.showOnlyUpcoming,
+                          onChanged: (value) {
+                            eventsModel.showOnlyUpcoming = value!;
+                          },
+                        ),
+                    const Text('Show only upcoming events'),
                   ],
                 );
               },
@@ -71,5 +79,3 @@ class MyEventsPage extends StatelessWidget {
     GoRouter.of(context).push('/add');
   }
 }
-
-
