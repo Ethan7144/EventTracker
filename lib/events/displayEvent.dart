@@ -50,6 +50,7 @@ class MyEventsPage extends StatelessWidget {
               ),
             ),
             ElevatedButton(
+              key: const Key('add_event_button'),
               child: const Text('Add Event'),
               onPressed: () => _showNewEventForm(context, eventsModel),
             ),

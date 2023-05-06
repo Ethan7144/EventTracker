@@ -56,6 +56,7 @@ class _NewEventFormState extends State<NewEventForm> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormField(
+                    key: const Key('title_field'),
                     decoration: InputDecoration(
                       hintText: 'Title',
                     ),
@@ -69,6 +70,7 @@ class _NewEventFormState extends State<NewEventForm> {
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
+                    key: const Key('description_field'),
                     decoration: InputDecoration(
                       hintText: 'Description',
                     ),
@@ -89,6 +91,7 @@ class _NewEventFormState extends State<NewEventForm> {
                       _startDate = DateTime.parse(value);
                       _minEndDate = _startDate;
                     },
+                    key: const Key('start_date_field'),
                     decoration: const InputDecoration(
                       labelText: 'Start Date',
                       hintText: 'Select start date',
@@ -101,6 +104,7 @@ class _NewEventFormState extends State<NewEventForm> {
                     firstDate: _minEndDate,
                     lastDate: DateTime(2100),
                     onChanged: (value) => _endDate = DateTime.parse(value),
+                    key: const Key('end_date_field'),
                     decoration: const InputDecoration(
                       labelText: 'End Date',
                       hintText: 'Select end date',
@@ -112,6 +116,7 @@ class _NewEventFormState extends State<NewEventForm> {
               onPressed: () => GoRouter.of(context).go('/home'),
             ),
                 ElevatedButton(
+                  key: const Key('submit_button'),
                   child: const Text('Save'),
                   onPressed: () => _submitForm(model),
                 ),
