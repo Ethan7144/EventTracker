@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../events/event.dart';
+import '../models/event.dart';
 
 class EditDateForm extends StatefulWidget {
   final Event event;

@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:provider/provider.dart';
-import '../events/event.dart';
+import '../models/event.dart';
 import 'package:hw2/myApp/myApp.dart';
 
 class EventItem extends StatelessWidget {

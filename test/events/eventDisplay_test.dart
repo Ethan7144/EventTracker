@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hw2/events/displayEvent.dart';
+import 'package:hw2/event_display/displayEvent.dart';
 import 'package:hw2/main.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:hw2/events/event.dart';
+import 'package:hw2/models/event.dart';
 
 void main() {
   testWidgets('Test to find if events details are showing properly" ',

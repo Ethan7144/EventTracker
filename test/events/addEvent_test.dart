@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hw2/event_forms/addevent.dart';
 import 'package:hw2/main.dart';
-import 'package:hw2/events/event.dart';
+import 'package:hw2/models/event.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:hw2/routes/goRoutes.dart';
 import 'package:mockito/mockito.dart';

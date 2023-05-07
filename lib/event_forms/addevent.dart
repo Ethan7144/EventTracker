@@ -2,7 +2,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../events/event.dart';
+import '../models/event.dart';
 import 'package:hw2/models/event_view_model.dart';
 
 class NewEventForm extends StatefulWidget {
