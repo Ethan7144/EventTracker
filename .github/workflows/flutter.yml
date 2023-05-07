@@ -26,4 +26,4 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
       - name: Run widget tests
-        run: flutter test test/common_widgets
+        run: flutter test
