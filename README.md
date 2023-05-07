@@ -1,16 +1,15 @@
 # EventTracker
 
-A new Flutter project.
+An app to help keep track of your events.
+## Built With
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white)
 
-## Getting Started
+## Developers
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| <a href="https://github.com/Ethan7144"><img src="https://github.com/Ethan7144.png"/></a>                                                     |
+|-------------------------------------------------------------------------------------------------|
+| Ethan Tarlov <br><small>*ejtarlov@me.com*</small>|
+## Testing Status
+![Flutter](https://github.com/Ethan7144/EventTracker/actions/workflows/flutter.yml/badge.svg)
