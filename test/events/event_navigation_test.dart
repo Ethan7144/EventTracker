@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hw2/events/event_details.dart';
-import 'package:hw2/events/event_tap.dart';
+import 'package:hw2/event_details/event_details.dart';
+import 'package:hw2/event_cards/event_tap.dart';
 
 import 'package:provider/provider.dart';
 import 'package:hw2/events/event.dart';
@@ -37,15 +37,9 @@ main() {
       ),
     );
 
-    final eventMore = find.byKey(const Key('more'));
+    final eventMore = find.byKey(const Key('event_card'));
 
     await tester.tap(eventMore);
-
-    await tester.pumpAndSettle();
-
-    expect(find.byKey(const Key('infodialog')), findsOneWidget);
-    
-    await tester.tap(find.text('View'));
 
     await tester.pumpAndSettle();
 

@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:provider/provider.dart';
-import 'event.dart';
+import '../events/event.dart';
+import 'package:hw2/myApp/myApp.dart';
 
 class EventItem extends StatelessWidget {
   final Event event;
@@ -12,64 +13,59 @@ class EventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
-    final index = eventsModel.events.indexOf(event);
     return InkWell(
+      onTap: () => _showEventDetails(context, eventsModel),
       key: const Key('event_card'),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            event.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.deepPurple.shade300,Colors.lightBlue.shade600],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(10, 10),
+                  blurRadius: 20
+                )
+              ]
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${DateFormat.yMMMd().format(event.startDate)} - ${DateFormat.yMMMd().format(event.endDate)}',
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 12,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            event.description,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 12,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  key: const Key('deletebutton'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                title: Text(event.title, style: Theme.of(context).textTheme.titleLarge),
+                subtitle: Text(event.description),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_forever, color: Colors.white,),
                   onPressed: () {
                     eventsModel.deleteEvent(event);
                   },
-                  child: const Text('Delete'),
-                ),
+                )
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  key: const Key('more'),
-                  onPressed: () {
-                    _showInfoDialog(context, eventsModel, event);
-                  },
-                  child: const Text('More'),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+               children: [
+                 Text('Start: ${DateFormat('MM-dd-yyyy').format(event.startDate)}'),
+                 Text('End: ${DateFormat('MM-dd-yyyy').format(event.endDate)}'),
+                  ElevatedButton(
+                      onPressed: () => _showEditDateForm(context, eventsModel, event),
+                      child: const Text('Edit', style: TextStyle(
+                        color: Colors.white
+                      ),
+                  ),
+                  ),
+               ],
               ),
+              const SizedBox(height: 8),
             ],
           ),
-
-          const SizedBox(height: 8),
-        ],
+        ),
       ),
     );
   }

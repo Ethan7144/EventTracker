@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hw2/events/addevent.dart';
-import 'package:hw2/events/editDateForm.dart';
+import 'package:hw2/event_forms/addevent.dart';
+import 'package:hw2/event_forms/editDateForm.dart';
 import 'package:hw2/events/event.dart';
 import 'package:provider/provider.dart';
-import 'package:hw2/events/event_details.dart';
+import 'package:hw2/event_details/event_details.dart';
 
 class MyEventsViewModel extends ChangeNotifier {
   final List<Event> _events = [];
@@ -33,14 +33,7 @@ class MyEventsViewModel extends ChangeNotifier {
   
 
   void addEvent(Event event) {
-    print('Adding event: $event');
-    print('Current event count: ${_events.length}');
-
     _events.add(event);
-
-    print('Event added.');
-    print('New event count: ${_events.length}');
-
     notifyListeners();
   }
 
@@ -59,13 +52,7 @@ class MyEventsViewModel extends ChangeNotifier {
   }
 
   void deleteEvent(Event event) {
-    print('Adding event: $event');
-    print('Current event count: ${_events.length}');
     _events.remove(event);
-
-    print('Event added.');
-    print('New event count: ${_events.length}');
-
     notifyListeners();
   }
 

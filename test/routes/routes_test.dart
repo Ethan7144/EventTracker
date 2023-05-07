@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hw2/events/addevent.dart';
+import 'package:hw2/event_forms/addevent.dart';
 import 'package:hw2/events/displayEvent.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:mockito/annotations.dart';

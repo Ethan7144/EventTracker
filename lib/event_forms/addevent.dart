@@ -2,7 +2,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'event.dart';
+import '../events/event.dart';
 import 'package:hw2/models/event_view_model.dart';
 
 class NewEventForm extends StatefulWidget {
@@ -113,7 +113,7 @@ class _NewEventFormState extends State<NewEventForm> {
                   ),
                   ElevatedButton(
               child: const Text('Cancel'),
-              onPressed: () => GoRouter.of(context).go('/home'),
+              onPressed: () => context.go('/home')
             ),
                 ElevatedButton(
                   key: const Key('submit_button'),

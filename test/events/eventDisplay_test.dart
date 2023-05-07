@@ -31,10 +31,12 @@ void main() {
     ));
     expect(find.text("Event 1"), findsOneWidget);
     expect(find.text("Description of event 1"), findsOneWidget);
-    expect(find.text("Jun 1, 2023 - Jun 3, 2023"), findsOneWidget);
+    expect(find.text("Start: 06-01-2023"), findsOneWidget);
+    expect(find.text("End: 06-03-2023"), findsOneWidget);
     expect(find.text("Event 2"), findsOneWidget);
     expect(find.text("Description of event 2"), findsOneWidget);
-    expect(find.text("Jun 5, 2023 - Jun 7, 2023"), findsOneWidget);
+    expect(find.text("Start: 06-05-2023"), findsOneWidget);
+    expect(find.text("End: 06-07-2023"), findsOneWidget);
     
   });
 }

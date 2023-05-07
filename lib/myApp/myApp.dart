@@ -13,7 +13,13 @@ class MyApp extends StatelessWidget {
         title: 'My Events App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
+          primaryColor: Colors.lightBlue,
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue),
+            titleLarge:  TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.green),
+            displaySmall: TextStyle(fontSize: 20),
+          )
         ),
         routerConfig: router,
       ),
