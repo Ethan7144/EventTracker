@@ -14,9 +14,7 @@ class EventItem extends StatelessWidget {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
     final index = eventsModel.events.indexOf(event);
     return InkWell(
-      onTap: () {
-        _showInfoDialog(context, eventsModel, event);
-      },
+      key: const Key('event_card'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -43,12 +41,33 @@ class EventItem extends StatelessWidget {
               fontSize: 12,
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              eventsModel.deleteEvent(event);
-            },
-            child: const Text('Delete'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  key: const Key('deletebutton'),
+                  onPressed: () {
+                    eventsModel.deleteEvent(event);
+                  },
+                  child: const Text('Delete'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  key: const Key('more'),
+                  onPressed: () {
+                    _showInfoDialog(context, eventsModel, event);
+                  },
+                  child: const Text('More'),
+                ),
+              ),
+            ],
           ),
+
           const SizedBox(height: 8),
         ],
       ),
@@ -71,17 +90,18 @@ class EventItem extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          key: const Key('infodialog'),
           title: Text(event.title),
           content: Text(event.description),
           actions: <Widget>[
             TextButton(
                 child: const Text('Edit'),
                 onPressed: () {
-                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                   _showEditDateForm(context, eventsModel, event);
-                }
-                ),
+                }),
             TextButton(
+              key: const Key('viewbutton'),
               child: const Text('View'),
               onPressed: () {
                 Navigator.of(context).pop();
