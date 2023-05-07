@@ -8,48 +8,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hw2/events/addevent.dart';
 import 'package:hw2/events/displayEvent.dart';
-
-import 'package:hw2/main.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
+import 'package:hw2/routes/goRoutes.dart';
 
 @GenerateMocks([MyEventsViewModel])
 void main() {
-  testWidgets('Test if button/link to add event form initiates navigation to the correct route', (WidgetTester tester) async {
-  final router = GoRouter(
-  initialLocation: '/home',
-  routes: [
-    GoRoute(
-      path: '/home',
-      name: 'home',
-      builder: (context, _) => const MyEventsPage(),
-    ),
-    GoRoute(
-      path: '/add',
-      name: 'add',
-      builder: (context, state) => NewEventForm(onSave: (event) {}),
-    ),
-      ],
-    );
+  testWidgets(
+    'Test if button/link to add event form initiates navigation to the correct route',
+    (WidgetTester tester) async {
+     
 
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<MyEventsViewModel>(
-            create: (context) => MyEventsViewModel(),
-          ),
-          Provider<GoRouter>.value(value: router),
-        ],
-        child: const MaterialApp(
-          home: Scaffold(
-            body: MyEventsPage(),
-          ),
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<MyEventsViewModel>(
+              create: (context) => MyEventsViewModel(),
+            ),
+          ],
+          child: MaterialApp.router(
+        title: 'My Events App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        routerConfig: router,
       ),
-    );
+        ),
+      );
 
       // Find the button/link that navigates to the add event form route
       final addEventButton = find.byKey(const Key('add_event_button'));
@@ -62,7 +50,6 @@ void main() {
 
       // Wait for the navigation to complete
       await tester.pumpAndSettle();
-
     },
   );
 }
