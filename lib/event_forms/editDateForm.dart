@@ -41,14 +41,15 @@ class _EditDateFormState extends State<EditDateForm> {
             ),
           ),
           SizedBox(height: 16),
-          Text(
+          const Text(
             'Start Date',
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 8),
           InkWell(
+            key: const Key('StartEdit'),
             onTap: () async {
               final DateTime? newStartDate = await showDatePicker(
                 context: context,
@@ -76,7 +77,7 @@ class _EditDateFormState extends State<EditDateForm> {
               children: [
                 Text(
                   DateFormat.yMMMd().format(_startDate),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -87,14 +88,15 @@ class _EditDateFormState extends State<EditDateForm> {
             ),
           ),
           SizedBox(height: 16),
-          Text(
+          const Text(
             'End Date',
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 8),
           InkWell(
+            key: const Key('EndEdit'),
             onTap: () async {
               final DateTime? newEndDate = await showDatePicker(
                 context: context,

@@ -54,6 +54,7 @@ class EventItem extends StatelessWidget {
                  Text('Start: ${DateFormat('MM-dd-yyyy').format(event.startDate)}'),
                  Text('End: ${DateFormat('MM-dd-yyyy').format(event.endDate)}'),
                   ElevatedButton(
+                    key: const Key('edit_button'),
                       onPressed: () => _showEditDateForm(context, eventsModel, event),
                       child: const Text('Edit', style: TextStyle(
                         color: Colors.white
