@@ -42,6 +42,7 @@ class EventItem extends StatelessWidget {
                 title: Text(event.title, style: Theme.of(context).textTheme.titleLarge),
                 subtitle: Text(event.description),
                 trailing: IconButton(
+                  key: const Key('delete_button'),
                   icon: const Icon(Icons.delete_forever, color: Colors.white,),
                   onPressed: () {
                     eventsModel.deleteEvent(event);
