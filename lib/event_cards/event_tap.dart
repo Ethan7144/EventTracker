@@ -82,36 +82,6 @@ class EventItem extends StatelessWidget {
     eventsModel.showEventDetails(context, event);
   }
 
-  void _showInfoDialog(
-      BuildContext context, MyEventsViewModel eventsModel, Event event) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          key: const Key('infodialog'),
-          title: Text(event.title),
-          content: Text(event.description),
-          actions: <Widget>[
-            TextButton(
-                child: const Text('Edit'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  _showEditDateForm(context, eventsModel, event);
-                }),
-            TextButton(
-              key: const Key('viewbutton'),
-              child: const Text('View'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _showEventDetails(context, eventsModel);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _showEventDetails(BuildContext context, MyEventsViewModel eventsModel) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
     final index = eventsModel.events.indexOf(event);
