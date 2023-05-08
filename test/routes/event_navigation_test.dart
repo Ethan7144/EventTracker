@@ -9,7 +9,7 @@ import 'package:hw2/models/event_view_model.dart';
 import 'package:hw2/routes/goRoutes.dart';
 
 main() {
-  testWidgets('Test viewing an event\'s detail " ',
+  testWidgets('Test viewing an event\'s details',
       (WidgetTester tester) async {
     Event event1 = Event(
         title: "Event 1",
