@@ -13,6 +13,7 @@ class MyEventsPage extends StatelessWidget {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
 
     return Scaffold(
+      backgroundColor: Colors.blueGrey[100],
       body: SafeArea(
         child: Column(
           children: [
