@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hw2/event_details/event_details.dart';
-import 'package:hw2/event_cards/event_tap.dart';
-
 import 'package:provider/provider.dart';
 import 'package:hw2/models/event.dart';
 import 'package:hw2/models/event_view_model.dart';

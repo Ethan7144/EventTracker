@@ -60,6 +60,7 @@ class MyEventsPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Checkbox(
+                      key: const Key('upcoming_box'),
                           value: eventsModel.showOnlyUpcoming,
                           onChanged: (value) {
                             eventsModel.showOnlyUpcoming = value!;
