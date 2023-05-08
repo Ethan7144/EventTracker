@@ -77,10 +77,6 @@ class EventItem extends StatelessWidget {
     viewModel.editEventDate(context, event);
   }
 
-  void _showEventDetailsDialog(
-      BuildContext context, MyEventsViewModel eventsModel, Event event) {
-    eventsModel.showEventDetails(context, event);
-  }
 
   void _showEventDetails(BuildContext context, MyEventsViewModel eventsModel) {
     final eventsModel = Provider.of<MyEventsViewModel>(context, listen: false);
