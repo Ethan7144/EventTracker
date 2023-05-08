@@ -14,9 +14,6 @@ class MockEventViewModel extends Mock implements MyEventsViewModel {}
 void main() {
   testWidgets('Add event form adds an event to the view model',
       (WidgetTester tester) async {
-    // Create a mock view model to use in the test.
-
-    // Build the app and inject the mock view model.
     final eventViewModel = MyEventsViewModel();
     await tester.pumpWidget(
       MultiProvider(
@@ -55,7 +52,7 @@ void main() {
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
 
-    // // Submit the form.
+    // Submit the form.
     final submitButton = find.byKey(const Key('submit_button'));
     await tester.tap(submitButton);
     await tester.pumpAndSettle();
