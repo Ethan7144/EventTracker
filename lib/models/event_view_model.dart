@@ -4,14 +4,23 @@ import 'package:hw2/event_forms/editDateForm.dart';
 import 'package:hw2/models/event.dart';
 import 'package:provider/provider.dart';
 import 'package:hw2/event_details/event_details.dart';
+import 'package:hw2/dao/event_dao.dart';
+import 'package:hw2/database/database.dart';
+import 'package:floor/floor.dart';
 
 class MyEventsViewModel extends ChangeNotifier {
+  final EventDao _eventDao;
   final List<Event> _events = [];
   bool _showOnlyUpcoming = false;
 
+  MyEventsViewModel(this._eventDao) {
+    // Initialize the _events list by loading data from the database
+    loadEvents();
+  }
+
   List<Event> get eventsList => _events;
   Event getEvent(int index) => _events[index];
-   int get eventsListSize => _events.length;
+  int get eventsListSize => _events.length;
 
   Event? _newEvent;
   List<Event> get events => _showOnlyUpcoming
@@ -30,11 +39,10 @@ class MyEventsViewModel extends ChangeNotifier {
     return _events;
   }
 
-  
-
-  void addEvent(Event event) {
-    _events.add(event);
-    notifyListeners();
+  void addEvent(Event event) async {
+    print('Adding event');
+    await _eventDao.insertEvent(event);
+    loadEvents();
   }
 
   void clearNewEvent() {
@@ -42,18 +50,20 @@ class MyEventsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateEvent(Event event, Event updatedEvent) {
-    int index = _events.indexOf(event);
-    if (index >= 0) {
-      _events[index].startDate = updatedEvent.startDate;
-      _events[index].endDate = updatedEvent.endDate;
-      notifyListeners();
-    }
+  void deleteEvent(Event event) async {
+    await _eventDao.deleteEvent(event);
+    loadEvents();
   }
 
-  void deleteEvent(Event event) {
-    _events.remove(event);
-    notifyListeners();
+  void updateEvent(Event event, Event updatedEvent) async {
+    // Perform the necessary database update
+    await _eventDao.updateEvent(updatedEvent);
+
+    // Optionally, update the _events list in memory
+    int index = _events.indexOf(event);
+    _events[index] = updatedEvent;
+
+    loadEvents();
   }
 
   void editEventDate(BuildContext context, Event event) {
@@ -63,10 +73,8 @@ class MyEventsViewModel extends ChangeNotifier {
         return EditDateForm(
           event: event,
           onSave: (updatedEvent) {
-            int index = _events.indexOf(event);
-            _events[index].startDate = updatedEvent.startDate;
-            _events[index].endDate = updatedEvent.endDate;
-            notifyListeners();
+            // Update the event in the database
+            updateEvent(event, updatedEvent);
           },
         );
       },
@@ -75,18 +83,15 @@ class MyEventsViewModel extends ChangeNotifier {
 
   void showEventDetails(BuildContext context, Event event) {
     int index = _events.indexOf(event);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Consumer<MyEventsViewModel>(
+    Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext context) {
+        return Consumer<MyEventsViewModel>(
           builder: (context, viewModel, _) {
-          return EventDetailsScreen(index: index);
-        },
-      );
-        },
-      )
-    );
+            return EventDetailsScreen(index: index);
+          },
+        );
+      },
+    ));
   }
 
   Future<Event?> showNewEventForm(BuildContext context) async {
@@ -102,5 +107,12 @@ class MyEventsViewModel extends ChangeNotifier {
         );
       },
     );
+  }
+
+  Future<void> loadEvents() async {
+    final events = await _eventDao.findAllEvents();
+    _events.clear();
+    _events.addAll(events);
+    notifyListeners();
   }
 }
