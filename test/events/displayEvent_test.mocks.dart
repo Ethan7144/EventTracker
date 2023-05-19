@@ -112,6 +112,14 @@ class MockMyEventsViewModel extends _i1.Mock implements _i3.MyEventsViewModel {
         returnValueForMissingStub: null,
       );
   @override
+  void deleteEvent(_i2.Event? event) => super.noSuchMethod(
+        Invocation.method(
+          #deleteEvent,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void updateEvent(
     _i2.Event? event,
     _i2.Event? updatedEvent,
@@ -123,14 +131,6 @@ class MockMyEventsViewModel extends _i1.Mock implements _i3.MyEventsViewModel {
             event,
             updatedEvent,
           ],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void deleteEvent(_i2.Event? event) => super.noSuchMethod(
-        Invocation.method(
-          #deleteEvent,
-          [event],
         ),
         returnValueForMissingStub: null,
       );
@@ -174,14 +174,13 @@ class MockMyEventsViewModel extends _i1.Mock implements _i3.MyEventsViewModel {
         returnValue: _i5.Future<_i2.Event?>.value(),
       ) as _i5.Future<_i2.Event?>);
   @override
-  _i5.Future<void> loadEvents() => (super.noSuchMethod(
+  void loadEvents() => super.noSuchMethod(
         Invocation.method(
           #loadEvents,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValueForMissingStub: null,
+      );
   @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(

@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hw2/dao/event_dao.dart';
+import 'package:hw2/database/database.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:hw2/routes/goRoutes.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:hw2/models/event.dart';
+import 'addEvent_test.mocks.dart';
 
-class MockEventViewModel extends Mock implements MyEventsViewModel {}
 
+@GenerateMocks([MyEventsViewModel])
 void main() {
   testWidgets('Add event form adds an event to the view model',
       (WidgetTester tester) async {
-    final eventViewModel = MyEventsViewModel();
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<MyEventsViewModel>(
-            create: (context) => eventViewModel,
-          ),
-        ],
+        List<Event> events = [];
+ final mockEventViewModel = MockMyEventsViewModel();
+    when(mockEventViewModel.eventsListSize).thenReturn(events.length);
+    when(mockEventViewModel.events).thenReturn(events);
+    when(mockEventViewModel.showOnlyUpcoming)
+        .thenAnswer((realInvocation) => false);
+    when(mockEventViewModel.events).thenReturn([]);
+    await tester.pumpWidget(ChangeNotifierProvider<MyEventsViewModel>.value(
+        value: mockEventViewModel,
         child: MaterialApp.router(
-          title: 'My Events App',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
           routerConfig: router,
-        ),
-      ),
-    );
+        )));
     // Fill in the form fields with valid data.
 
     final addEventButton = find.byKey(const Key("add_event_button"));
@@ -54,6 +53,6 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify that the event was added to the view model.
-    expect(eventViewModel.eventsListSize, 1);
+    verify(mockEventViewModel.addEvent(any)).called(1);
   });
 }

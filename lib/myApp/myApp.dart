@@ -10,17 +10,13 @@ import 'package:hw2/database/database.dart';
 
 
 class MyApp extends StatelessWidget {
+  final AppDatabase database;
+  const MyApp({super.key, required this.database});
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<AppDatabase>(
-      future: AppDatabase.createDatabase(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          final eventDao = snapshot.data!.eventDao;
           return ChangeNotifierProvider(
-            create: (_) => MyEventsViewModel(eventDao),
+            create: (context) => MyEventsViewModel(database),
             child: MaterialApp.router(
-              title: 'My Events App',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 primarySwatch: Colors.deepPurple,
@@ -34,11 +30,6 @@ class MyApp extends StatelessWidget {
               routerConfig: router,
             ),
           );
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
-  }
-}
+        } 
+      }
 

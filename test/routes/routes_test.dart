@@ -8,35 +8,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hw2/event_forms/addevent.dart';
+import 'package:hw2/models/event.dart';
 import 'package:hw2/models/event_view_model.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:hw2/routes/goRoutes.dart';
+
+import '../events/displayEvent_test.mocks.dart';
 
 @GenerateMocks([MyEventsViewModel])
 void main() {
   testWidgets(
     'Test if button/link to add event form initiates navigation to the correct route',
     (WidgetTester tester) async {
-     
 
-      await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider<MyEventsViewModel>(
-              create: (context) => MyEventsViewModel(),
-            ),
-          ],
-          child: MaterialApp.router(
-        title: 'My Events App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        routerConfig: router,
-      ),
-        ),
-      );
+        List<Event> events = [];
+       final mockEventViewModel = MockMyEventsViewModel();
+    when(mockEventViewModel.eventsListSize).thenReturn(events.length);
+    when(mockEventViewModel.events).thenReturn(events);
+    when(mockEventViewModel.showOnlyUpcoming)
+        .thenAnswer((realInvocation) => false);
+    when(mockEventViewModel.events).thenReturn([]);
+    when(mockEventViewModel.eventsList).thenReturn(events);
+    await tester.pumpWidget(ChangeNotifierProvider<MyEventsViewModel>.value(
+        value: mockEventViewModel,
+        child: MaterialApp.router(
+          routerConfig: router,
+        )));
 
       // Find the button/link that navigates to the add event form route
       final addEventButton = find.byKey(const Key('add_event_button'));

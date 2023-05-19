@@ -10,7 +10,7 @@ abstract class EventDao {
   @Query('SELECT title FROM Event')
   Stream<List<String>> findAllTitles();
 
-  @Query('SELECT * FROM Person WHERE title = :title')
+  @Query('SELECT * FROM Event WHERE title = :title')
   Stream<Event?> findEventbyTitle(String title);
 
   @insert
@@ -21,7 +21,4 @@ abstract class EventDao {
 
   @update
   Future<void> updateEvent(Event event);
-
-
-
 }

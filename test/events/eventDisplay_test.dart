@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hw2/event_display/displayEvent.dart';
 import 'package:hw2/models/event_view_model.dart';
+import 'package:hw2/routes/goRoutes.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:hw2/models/event.dart';
+
+import 'addEvent_test.mocks.dart';
 
 void main() {
   testWidgets('Test to find if events details are showing properly" ',
       (WidgetTester tester) async {
-    final eventViewModel = MyEventsViewModel();
+    final eventViewModel = MockMyEventsViewModel();
+    
     final event1 = Event(
         title: 'Event 1',
         description: 'Description of event 1',
@@ -19,15 +24,20 @@ void main() {
         description: 'Description of event 2',
         startDate: DateTime(2023, 6, 5),
         endDate: DateTime(2023, 6, 7));
-    eventViewModel.addEvent(event1);
-    eventViewModel.addEvent(event2);
-    await tester.pumpWidget(ChangeNotifierProvider(
-      create: (context) => eventViewModel,
-      child: const MaterialApp(
-          home: Scaffold(
-        body: MyEventsPage(),
-      )),
-    ));
+    List<Event> events = [event1, event2];
+    
+    when(eventViewModel.eventsListSize).thenReturn(events.length);
+    when(eventViewModel.events).thenReturn(events);
+    when(eventViewModel.showOnlyUpcoming)
+        .thenAnswer((realInvocation) => false);
+    when(eventViewModel.events).thenReturn([]);
+    when(eventViewModel.eventsList).thenReturn(events);
+    await tester.pumpWidget(ChangeNotifierProvider<MyEventsViewModel>.value(
+        value: eventViewModel,
+        child: MaterialApp.router(
+          routerConfig: router,
+        )));
+    // Fill in t
     expect(find.text("Event 1"), findsOneWidget);
     expect(find.text("Description of event 1"), findsOneWidget);
     expect(find.text("Start: 06-01-2023"), findsOneWidget);

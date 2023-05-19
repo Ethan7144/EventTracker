@@ -9,12 +9,11 @@ import 'package:hw2/database/database.dart';
 import 'package:floor/floor.dart';
 
 class MyEventsViewModel extends ChangeNotifier {
-  final EventDao _eventDao;
-  final List<Event> _events = [];
+  late final AppDatabase _database;
+  List<Event> _events = [];
   bool _showOnlyUpcoming = false;
 
-  MyEventsViewModel(this._eventDao) {
-    // Initialize the _events list by loading data from the database
+  MyEventsViewModel(this._database) {
     loadEvents();
   }
 
@@ -41,8 +40,9 @@ class MyEventsViewModel extends ChangeNotifier {
 
   void addEvent(Event event) async {
     print('Adding event');
-    await _eventDao.insertEvent(event);
-    loadEvents();
+    _events.add(event);
+    await _database.eventDao.insertEvent(event);
+    notifyListeners();
   }
 
   void clearNewEvent() {
@@ -51,19 +51,20 @@ class MyEventsViewModel extends ChangeNotifier {
   }
 
   void deleteEvent(Event event) async {
-    await _eventDao.deleteEvent(event);
-    loadEvents();
+    _events.remove(event);
+    await _database.eventDao.deleteEvent(event);
+    notifyListeners();
   }
 
   void updateEvent(Event event, Event updatedEvent) async {
     // Perform the necessary database update
-    await _eventDao.updateEvent(updatedEvent);
+    await _database.eventDao.updateEvent(updatedEvent);
 
     // Optionally, update the _events list in memory
     int index = _events.indexOf(event);
     _events[index] = updatedEvent;
 
-    loadEvents();
+    notifyListeners();
   }
 
   void editEventDate(BuildContext context, Event event) {
@@ -109,10 +110,11 @@ class MyEventsViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> loadEvents() async {
-    final events = await _eventDao.findAllEvents();
-    _events.clear();
-    _events.addAll(events);
+  void loadEvents() async {
+    _events = await _database.eventDao.findAllEvents();
+    if (_events.length >= 2) {
+      _events.sort((a, b) => a.startDate.compareTo(b.startDate));
+    }
     notifyListeners();
   }
 }
