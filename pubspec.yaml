@@ -40,6 +40,7 @@ dependencies:
   mockito: ^5.4.0
   floor_generator:
   build_runner: 
+  firebase_core: ^2.13.1
   
 dev_dependencies:
   flutter_test:

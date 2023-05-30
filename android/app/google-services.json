@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "221234004739",
+    "project_id": "event-tracker-cc97e",
+    "storage_bucket": "event-tracker-cc97e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221234004739:android:a1d1ff3a7104b058af9f36",
+        "android_client_info": {
+          "package_name": "com.example.hw2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4pLeYIKqV1FqcfeptVrw0DATCA7OOZ_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
