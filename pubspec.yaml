@@ -41,6 +41,7 @@ dependencies:
   floor_generator:
   build_runner: 
   firebase_core: ^2.13.1
+  cloud_firestore: ^4.8.0
   
 dev_dependencies:
   flutter_test:

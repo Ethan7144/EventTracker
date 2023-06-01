@@ -1,13 +1,13 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hw2/firebase/firebase_functions.dart';
 import 'package:provider/provider.dart';
 import '../models/event.dart';
 import 'package:hw2/models/event_view_model.dart';
 
 class NewEventForm extends StatefulWidget {
   final Function(Event) onSave;
-
   NewEventForm({required this.onSave});
 
   @override
@@ -20,6 +20,7 @@ class _NewEventFormState extends State<NewEventForm> {
   late String _description;
   late DateTime _startDate = DateTime.now();
   late DateTime _endDate = DateTime.now();
+  late bool _storeToFirebase = false;
 
   void _submitForm(MyEventsViewModel viewModel) {
     final isValid = _formKey.currentState!.validate();
@@ -33,9 +34,15 @@ class _NewEventFormState extends State<NewEventForm> {
       startDate: _startDate,
       endDate: _endDate,
     );
-    
+    if(_storeToFirebase) {
+      FirebaseFunctions.saveEvents(viewModel);
+    }
+    else{
     viewModel.addEvent(newEvent);
     print('Event added to VMC.');
+    }
+    
+    
     GoRouter.of(context).pop();
   }
 
@@ -120,6 +127,15 @@ class _NewEventFormState extends State<NewEventForm> {
                   child: const Text('Save'),
                   onPressed: () => _submitForm(model),
                 ),
+                CheckboxListTile(
+                    title: const Text('Store to Firebase?'),
+                    value: _storeToFirebase,
+                    onChanged: (value) {
+                      setState(() {
+                        _storeToFirebase = value!;
+                      });
+                    },
+                  ),
                 ],
               ),
             ),
