@@ -9,9 +9,12 @@ import 'package:hw2/dao/event_dao.dart';
 import 'package:hw2/database/database.dart';
 import 'package:floor/floor.dart';
 
+import '../firebase/firebase_functions.dart';
+
 class MyEventsViewModel extends ChangeNotifier {
   late final AppDatabase _database;
   List<Event> _events = [];
+  List<Event> _combinedEvents = [];
   bool _showOnlyUpcoming = false;
 
   MyEventsViewModel(this._database) {
@@ -19,8 +22,10 @@ class MyEventsViewModel extends ChangeNotifier {
   }
 
   List<Event> get eventsList => _events;
+  List<Event> get combinedEvents => _combinedEvents;
   Event getEvent(int index) => _events[index];
   int get eventsListSize => _events.length;
+  int get combinedListSize => _combinedEvents.length;
 
   Event? _newEvent;
   List<Event> get events => _showOnlyUpcoming
@@ -34,15 +39,16 @@ class MyEventsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Event> getSortedEventsByStartDate() {
-    _events.sort((a, b) => a.startDate.compareTo(b.startDate));
-    return _events;
-  }
+  List<Event> getSortedEventsByStartDate(List<Event> events) {
+  events.sort((a, b) => a.startDate.compareTo(b.startDate));
+  return events;
+}
 
   void addEvent(Event event) async {
     print('Adding event');
     _events.add(event);
     await _database.eventDao.insertEvent(event);
+    _combinedEvents.add(event);
     notifyListeners();
   }
 
@@ -84,7 +90,7 @@ class MyEventsViewModel extends ChangeNotifier {
   }
 
   void showEventDetails(BuildContext context, Event event) {
-    int index = _events.indexOf(event);
+    int index = _combinedEvents.indexOf(event);
     Navigator.push(context, MaterialPageRoute(
       builder: (BuildContext context) {
         return Consumer<MyEventsViewModel>(
@@ -116,6 +122,8 @@ class MyEventsViewModel extends ChangeNotifier {
     if (_events.length >= 2) {
       _events.sort((a, b) => a.startDate.compareTo(b.startDate));
     }
+    List<Event> firebaseEvents = await FirebaseFunctions.loadEvents();
+     _combinedEvents = [..._events, ...firebaseEvents];
     notifyListeners();
   }
 }

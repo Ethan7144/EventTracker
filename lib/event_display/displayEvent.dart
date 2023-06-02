@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hw2/event_cards/event_tap.dart';
+import 'package:hw2/event_cards/shared_event_tap.dart';
 import 'package:hw2/firebase/firebase_functions.dart';
 import 'package:hw2/models/event.dart';
 import 'package:intl/intl.dart';
@@ -82,36 +83,10 @@ class MyEventsPage extends StatelessWidget {
   }
 
   Widget _buildEventList(List<Event>? events, String title) {
-    if (events == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (events.isEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Center(
-            child: Text(
-              'No events found',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
+  if (events == null) {
+    return const Center(child: CircularProgressIndicator());
+  }
+  if (events.isEmpty) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -125,18 +100,58 @@ class MyEventsPage extends StatelessWidget {
             ),
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          itemCount: events.length,
-          itemBuilder: (BuildContext context, int index) {
-            final event = events[index];
-            return EventItem(event: event);
-          },
+        const Center(
+          child: Text(
+            'No events found',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey,
+            ),
+          ),
         ),
       ],
     );
   }
+
+  final isSharedEvents = title == 'Shared Events';
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      ListView.builder(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        itemCount: events.length,
+        itemBuilder: (BuildContext context, int index) {
+          final event = events[index];
+          if (isSharedEvents) {
+            return SharedEventCard(
+              event: event,
+              index: index,
+            );
+          } else {
+            return EventItem(
+              event: event,
+              index: index,
+            );
+          }
+        },
+      ),
+    ],
+  );
+}
+
+
 
   void _showNewEventForm(BuildContext context) {
     GoRouter.of(context).push('/add');

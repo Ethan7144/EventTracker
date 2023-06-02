@@ -18,9 +18,10 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 Widget build(BuildContext context) {
   final eventsModel =
       Provider.of<MyEventsViewModel>(context, listen: false);
-  final sortedEvents = eventsModel.getSortedEventsByStartDate();
-  final currEvent = sortedEvents[widget.index];
-  final int length = eventsModel.eventsListSize;
+  final combinedEvents = eventsModel.combinedEvents;
+  final sortedEvents = eventsModel.getSortedEventsByStartDate(combinedEvents);
+final currEvent = combinedEvents[widget.index];
+  final int length = eventsModel.combinedListSize;
 
   return Scaffold(
     body: SafeArea(
