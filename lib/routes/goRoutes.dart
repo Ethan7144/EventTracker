@@ -9,7 +9,7 @@ final router = GoRouter(
     GoRoute(
       path: '/home',
       name: 'home',
-      builder: (context, _) => const MyEventsPage(),
+      builder: (context, _) =>  MyEventsPage(),
     ),
     GoRoute(
       path: '/add',

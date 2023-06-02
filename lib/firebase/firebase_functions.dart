@@ -7,7 +7,7 @@ class FirebaseFunctions {
 
   static Future<List<Event>> loadEvents() async {
   DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await FirebaseFirestore.instance.collection('events').doc().get();
+      await FirebaseFirestore.instance.collection('events').doc("Shared Events").get();
   if (snapshot.exists) {
     List<Event> eventList = List<Event>.from(
       snapshot.data()!['events'].map(
@@ -27,7 +27,7 @@ class FirebaseFunctions {
 
 
   static void saveEvents(MyEventsViewModel viewModel) async {
-  await FirebaseFirestore.instance.collection('events').doc().set({
+  await FirebaseFirestore.instance.collection('events').doc("Shared Events").set({
     'events': viewModel.eventsList.map((event) => {
       'title': event.title,
       'description': event.description,
